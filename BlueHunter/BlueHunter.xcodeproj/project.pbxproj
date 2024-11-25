@@ -148,6 +148,7 @@
 				DEVELOPMENT_TEAM = BV83K7866C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlueHunter/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app uses Bluetooth to search for devices.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -176,6 +177,7 @@
 				DEVELOPMENT_TEAM = BV83K7866C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlueHunter/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app uses Bluetooth to search for devices.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
