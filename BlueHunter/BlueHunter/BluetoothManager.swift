@@ -9,7 +9,9 @@ import CoreBluetooth
 
 class BluetoothManager: NSObject, CBCentralManagerDelegate {
     private var centralManager: CBCentralManager!
-    private var discoveredPeripherals: [CBPeripheral] = []
+    private(set) var discoveredPeripherals: [CBPeripheral] = []
+    
+    var onNewPeripheralDiscovered: ((CBPeripheral, NSNumber) -> Void)?
     
     override init() {
         super.init()
@@ -36,6 +38,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
         print("Discovered: \(peripheral.name ?? "Unknown device") at \(RSSI)dBm")
         if !discoveredPeripherals.contains(peripheral) {
             discoveredPeripherals.append(peripheral)
+            onNewPeripheralDiscovered?(peripheral, RSSI)
         }
     }
 }
