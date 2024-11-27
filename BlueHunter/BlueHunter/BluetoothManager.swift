@@ -36,9 +36,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print("Discovered: \(peripheral.name ?? "Unknown device") at \(RSSI)dBm")
-        if !discoveredPeripherals.contains(peripheral) {
+        if peripheral.name != nil {
             discoveredPeripherals.append(peripheral)
             onNewPeripheralDiscovered?(peripheral, RSSI)
+            
         }
     }
 }

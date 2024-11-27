@@ -13,17 +13,34 @@ class ViewController: UIViewController {
     private var scrollView: UIScrollView!
     private var stackView: UIStackView!
     
+    private var textViews: [UITextView] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupScrollView()
         setupStackView()
         
+        
         bluetoothManager = BluetoothManager()
         
         bluetoothManager.onNewPeripheralDiscovered = { [weak self] peripheral, rssi in
-            self?.addTextField(text: "Discovered: \(peripheral.name ?? "Unknown device") at \(rssi) dBm")
+            guard let self = self else { return }
+            
+            let deviceName = peripheral.name
+            
+            addTextField(text: "\(deviceName ?? "Unknown device") at \(rssi) dBm")
+            
+            if let deviceName = peripheral.name {
+                for textView in textViews {
+                    if let text = textView.text, text.hasPrefix(deviceName) {
+                        textView.text = "\(deviceName) at \(rssi) dBm"
+                        stackView.addArrangedSubview(textView)
+                    }
+                }
+            }
         }
+        
     }
     
     private func setupScrollView() {
@@ -61,15 +78,13 @@ class ViewController: UIViewController {
         let textView = UITextView()
         textView.text = text
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.isEditable = false // Отключаем редактирование
+        textView.isEditable = false
         textView.backgroundColor = .lightGray
         textView.layer.cornerRadius = 8
         textView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Устанавливаем высоту текстового поля
         textView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        // Добавляем в StackView
-        stackView.addArrangedSubview(textView)
+        textViews.append(textView)
     }
 }
