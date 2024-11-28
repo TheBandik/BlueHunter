@@ -22,7 +22,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
         switch central.state {
         case .poweredOn:
             print("Bluetooth is powered on. Starting scan...")
-            centralManager.scanForPeripherals(withServices: nil, options: nil)
+            centralManager.scanForPeripherals(
+                withServices: nil,
+                options: [CBCentralManagerScanOptionAllowDuplicatesKey: true]
+            )
         case .poweredOff:
             print("Bluetooth is powered off.")
         case .unsupported:
@@ -35,7 +38,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("Discovered: \(peripheral.name ?? "Unknown device") at \(RSSI)dBm")
+        //        print("Discovered: \(peripheral.name ?? "Unknown device") at \(RSSI)dBm")
         if peripheral.name != nil {
             discoveredPeripherals.append(peripheral)
             onNewPeripheralDiscovered?(peripheral, RSSI)

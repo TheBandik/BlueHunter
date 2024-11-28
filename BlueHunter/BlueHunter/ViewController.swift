@@ -27,20 +27,14 @@ class ViewController: UIViewController {
         bluetoothManager.onNewPeripheralDiscovered = { [weak self] peripheral, rssi in
             guard let self = self else { return }
             
-            let deviceName = peripheral.name
+            let deviceName = peripheral.name ?? "Unknown device"
             
-            addTextField(text: "\(deviceName ?? "Unknown device") at \(rssi) dBm")
-            
-            if let deviceName = peripheral.name {
-                for textView in textViews {
-                    if let text = textView.text, text.hasPrefix(deviceName) {
-                        textView.text = "\(deviceName) at \(rssi) dBm"
-                        stackView.addArrangedSubview(textView)
-                    }
-                }
+            if let existingTextView = self.textViews.first(where: { $0.text.starts(with: "\(deviceName) at") }) {
+                existingTextView.text = "\(deviceName) at \(rssi) dBm"
+            } else {
+                self.addTextField(text: "\(deviceName) at \(rssi) dBm")
             }
         }
-        
     }
     
     private func setupScrollView() {
@@ -85,6 +79,7 @@ class ViewController: UIViewController {
         
         textView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        stackView.addArrangedSubview(textView)
         textViews.append(textView)
     }
 }
